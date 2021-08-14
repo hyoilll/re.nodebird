@@ -1,10 +1,16 @@
 import AppLayout from "../components/AppLayout";
+import Head from "next/head";
 
 const Signup = () => {
   return (
-    <AppLayout>
-      <div>Hello Signup</div>
-    </AppLayout>
+    <>
+      <Head>
+        <title>NodeBird | Profile</title>
+      </Head>
+      <AppLayout>
+        <div>Hello Signup</div>
+      </AppLayout>
+    </>
   );
 };
 
