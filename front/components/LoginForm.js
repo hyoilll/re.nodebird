@@ -1,12 +1,22 @@
 import React, { useCallback, useState } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
+import styled from "styled-components";
 
-const LoginForm = () => {
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`;
+
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
+
+const LoginForm = ({ setIsLoggedIn }) => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
   //   component에 사용하는 함수는 useCallback으로 최적화
+  //   값은 useMemo로 최적화
   const onChangeId = useCallback((e) => {
     setId(e.target.value);
   }, []);
@@ -15,9 +25,15 @@ const LoginForm = () => {
     setPw(e.target.value);
   }, []);
 
+  const onSubmitForm = useCallback(() => {
+    console.log(id, pw);
+    setIsLoggedIn(true);
+  }, [id, pw]); //[] : 디펜던시
+
   return (
     <>
-      <Form>
+      {/* onFinish : e.preventDefault가 이미 적용되어 있음 */}
+      <FormWrapper onFinish={onSubmitForm}>
         <div>
           <label htmlFor="user-id">ID</label>
           <br />
@@ -39,7 +55,7 @@ const LoginForm = () => {
             required
           ></Input>
         </div>
-        <div>
+        <ButtonWrapper>
           <Button type="primary" htmlType="submit" loading={false}>
             Login
           </Button>
@@ -48,8 +64,8 @@ const LoginForm = () => {
               <Button>SignUp</Button>
             </a>
           </Link>
-        </div>
-      </Form>
+        </ButtonWrapper>
+      </FormWrapper>
     </>
   );
 };

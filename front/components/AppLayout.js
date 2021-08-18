@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import PropsTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
+import styled from "styled-components";
 
 import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
 
-// 특정 컴포넌트 끼리 공통
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+`;
 
+// 특정 컴포넌트 끼리 공통
 const AppLayout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
@@ -24,10 +28,7 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
         <Menu.Item>
-          <Input.Search
-            enterButton
-            style={{ verticalAlign: "middle" }}
-          ></Input.Search>
+          <SearchInput enterButton></SearchInput>
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup">
@@ -44,7 +45,11 @@ const AppLayout = ({ children }) => {
       */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
+          {isLoggedIn ? (
+            <UserProfile setIsLoggedIn={setIsLoggedIn}></UserProfile>
+          ) : (
+            <LoginForm setIsLoggedIn={setIsLoggedIn}></LoginForm>
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}
