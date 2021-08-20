@@ -3,6 +3,7 @@ import PropsTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import UserProfile from "./UserProfile";
 import LoginForm from "./LoginForm";
@@ -13,7 +14,12 @@ const SearchInput = styled(Input.Search)`
 
 // 특정 컴포넌트 끼리 공통
 const AppLayout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useSelector를 통해 state의 값을 받아옴
+  // state 값 변경시 자동으로 반영됨
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -45,11 +51,7 @@ const AppLayout = ({ children }) => {
       */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? (
-            <UserProfile setIsLoggedIn={setIsLoggedIn}></UserProfile>
-          ) : (
-            <LoginForm setIsLoggedIn={setIsLoggedIn}></LoginForm>
-          )}
+          {isLoggedIn ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
         </Col>
         <Col xs={24} md={12}>
           {children}
@@ -73,7 +75,7 @@ const AppLayout = ({ children }) => {
 };
 
 AppLayout.propTypes = {
-  chileren: PropsTypes.node.isRequired,
+  children: PropsTypes.node.isRequired,
 };
 
 export default AppLayout;
