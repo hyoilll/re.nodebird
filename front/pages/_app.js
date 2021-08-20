@@ -2,6 +2,8 @@ import "antd/dist/antd.css";
 import PropTypes from "prop-types";
 import Head from "next/head";
 
+import wrapper from "../store/configureStore";
+
 // 모든 페이지에서 공통적으로 쓰이는 것
 
 const App = ({ Component }) => {
@@ -20,4 +22,4 @@ App.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default App;
+export default wrapper.withRedux(App);
