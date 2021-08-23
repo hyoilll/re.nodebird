@@ -1,10 +1,18 @@
 import { createWrapper } from "next-redux-wrapper";
-import { createStore } from "redux";
-
+import { applyMiddleware, compose, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../reducers";
 
 const configureStore = () => {
-  const store = createStore(reducer);
+  const middlewares = [];
+  // DevTools가 있어야 브라우저의 Redux관리 탭에 연결되어 확인할 수 있음
+  // 밑에와 같이 개발모드일때만 DevTools를 연결하는 이유는 개발할 때 History를 참고하기 위함이다, 그렇기에 연결해주고,
+  // 베포용일때는 연결안해주는 이유가 남겨지는 History로 인해 보안에 위협이 될 수 있기 때문
+  const enhancer =
+    process.env.NODE_ENV === "production"
+      ? compose(applyMiddleware(...middlewares))
+      : composeWithDevTools(applyMiddleware(...middlewares));
+  const store = createStore(reducer, enhancer);
   return store;
 };
 
