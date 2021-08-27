@@ -45,7 +45,7 @@ const dummyPost = {
     nickname: "hyoil",
   },
   Images: [],
-  Conmments: [],
+  Comments: [],
 };
 
 const reducer = (state = initialState, action) => {
