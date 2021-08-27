@@ -44,7 +44,7 @@ const dummyPost = {
     id: 1,
     nickname: "hyoil",
   },
-  Image: [],
+  Images: [],
   Conmments: [],
 };
 
