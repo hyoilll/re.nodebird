@@ -6,7 +6,7 @@ export const initialState = {
         id: 1,
         nickname: "Hyoilzzz",
       },
-      content: "첫번째 게시글",
+      content: "첫번째 게시글 #hyoil #zzz#bbb",
       Images: [
         { src: "https://placeimg.com/64/64/1" },
         { src: "https://placeimg.com/64/64/2" },

@@ -11,8 +11,9 @@ import PropTypes from "prop-types";
 
 import PostImages from "./PostImages";
 import React, { useCallback, useState } from "react";
-import Item from "antd/lib/list/Item";
 import CommentForm from "./CommentForm";
+
+import PostCardContent from "./PostCardContent";
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
@@ -72,7 +73,9 @@ const PostCard = ({ post }) => {
           <Card.Meta
             avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
             title={post.User.nickname}
-            description={post.content}
+            description={
+              <PostCardContent postData={post.content}></PostCardContent>
+            }
           ></Card.Meta>
         </Card>
         {commentFormOpened && (
