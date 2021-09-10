@@ -1,10 +1,25 @@
 import { createWrapper } from "next-redux-wrapper";
 import { applyMiddleware, compose, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import createSagaMiddleware from "redux-saga";
+
 import reducer from "../reducers";
+import rootSaga from "../sagas";
+
+const loggerMiddleware =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
+    console.log(action);
+    return next(action);
+  };
 
 const configureStore = () => {
-  const middlewares = [];
+  const sagaMiddleware = createSagaMiddleware();
+  // redux-thunk는 redux의 미들웨어
+  // 미들웨어 - redux의 기능을 향상시켜줌
+  // redux-thunk - redux가 비동기 액션을 dispatch할 때 도와줌
+  const middlewares = [sagaMiddleware, loggerMiddleware];
   // DevTools가 있어야 브라우저의 Redux관리 탭에 연결되어 확인할 수 있음
   // 밑에와 같이 개발모드일때만 DevTools를 연결하는 이유는 개발할 때 History를 참고하기 위함이다, 그렇기에 연결해주고,
   // 베포용일때는 연결안해주는 이유가 남겨지는 History로 인해 보안에 위협이 될 수 있기 때문
@@ -13,6 +28,7 @@ const configureStore = () => {
       ? compose(applyMiddleware(...middlewares))
       : composeWithDevTools(applyMiddleware(...middlewares));
   const store = createStore(reducer, enhancer);
+  store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
 
