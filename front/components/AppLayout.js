@@ -32,7 +32,7 @@ const AppLayout = ({ children }) => {
 
   // useSelector를 통해 state의 값을 받아옴
   // state 값 변경시 자동으로 반영됨
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const { logInDone } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -66,7 +66,7 @@ const AppLayout = ({ children }) => {
       */}
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
+          {logInDone ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
         </Col>
         <Col xs={24} md={12}>
           {children}

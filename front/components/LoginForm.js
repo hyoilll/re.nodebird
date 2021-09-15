@@ -17,7 +17,7 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { isLoggingIn } = useSelector((state) => state.user);
+  const { logInLoading } = useSelector((state) => state.user);
 
   const [id, onChangeId] = useInput("");
   const [pw, onChangePw] = useInput("");
@@ -56,7 +56,7 @@ const LoginForm = () => {
           ></Input>
         </div>
         <ButtonWrapper>
-          <Button type="primary" htmlType="submit" loading={isLoggingIn}>
+          <Button type="primary" htmlType="submit" loading={logInLoading}>
             Login
           </Button>
           <Link href="/signup">
