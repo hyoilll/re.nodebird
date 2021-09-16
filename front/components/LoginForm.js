@@ -19,28 +19,29 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { logInLoading } = useSelector((state) => state.user);
 
-  const [id, onChangeId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [pw, onChangePw] = useInput("");
 
   //   component에 사용하는 함수는 useCallback으로 최적화
   //   값은 useMemo로 최적화
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, pw);
-    dispatch(loginRequestAction({ id, pw }));
-  }, [id, pw]); //[] : 디펜던시
+    console.log(email, pw);
+    dispatch(loginRequestAction({ email, pw }));
+  }, [email, pw]); //[] : 디펜던시
 
   return (
     <>
       {/* onFinish : e.preventDefault가 이미 적용되어 있음 */}
       <FormWrapper onFinish={onSubmitForm}>
         <div>
-          <label htmlFor="user-id">ID</label>
+          <label htmlFor="user-email">E-mail</label>
           <br />
           <Input
-            name="user-id"
-            value={id}
-            onChange={onChangeId}
+            name="user-email"
+            type={email}
+            value={email}
+            onChange={onChangeEmail}
             required
           ></Input>
         </div>

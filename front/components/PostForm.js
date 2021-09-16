@@ -1,27 +1,33 @@
 import { Button, Form, Input } from "antd";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useInput from "../hooks/useInput";
 
 import { addPost } from "../reducers/post";
 
 const PostForm = () => {
-  const imagePaths = useSelector((state) => state.post.imagePaths);
-  const dispatch = useDispatch();
+  const { imagePaths, addPostDone } = useSelector((state) => state.post);
   const imageInput = useRef();
 
-  const [text, setText] = useState("");
-  const onChangeText = useCallback((e) => {
-    setText(e.target.value);
-  }, []);
+  const dispatch = useDispatch();
+
+  const [text, onChangeText, setText] = useInput("");
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost);
-    setText("");
-  }, []);
+    dispatch(addPost(text));
+  }, [text]);
 
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, []);
+
+  useEffect(() => {
+    // componentDidMount -> 첫 랜더링시 아래의 조건문이 실행됨. and componentDidUpdate에 의해 리랜더링
+    if (addPostDone) {
+      setText("");
+    }
+    // componentDidUpdate역할을 하는 배열 매개변수 addPostDone의 state의 변화가 생기면 리랜더링됨
+  }, [addPostDone]);
 
   return (
     <>

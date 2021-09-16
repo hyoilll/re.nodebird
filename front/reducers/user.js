@@ -7,7 +7,7 @@ export const initialState = {
   logOutDone: false,
   logOutError: null,
 
-  signUpLoading: false, // 포스트 추가중인지 확인하는 변수
+  signUpLoading: false, // 회원가입중인지 확인하는 변수
   signUpDone: false,
   signUpError: null,
 
