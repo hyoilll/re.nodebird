@@ -1,3 +1,5 @@
+import produce from "immer";
+
 export const initialState = {
   logInLoading: false, // 로그인 시도중인지 확인하는 변수
   logInDone: false,
@@ -75,116 +77,166 @@ export const logoutRequestAction = () => {
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case LOG_IN_REQUEST: // 리듀서의 액션이 실행되면서 saga의 액션도 같이 실행이됨 동시에
-      return {
-        // request에서 3개의 변수를 모두 초기화 시켜줌
-        ...state,
-        logInLoading: true,
-        logInDone: false,
-        logInError: null,
-      };
-    case LOG_IN_SUCCESS:
-      return {
-        // success에서 필요한 변수만 초기화 시켜줌
-        ...state,
-        logInLoading: false,
-        logInDone: true,
-        me: dummyUser(action.data),
-      };
-    case LOG_IN_FAILURE:
-      return {
-        // failure에서 필요한 변수만 초기화 시켜줌
-        ...state,
-        logInLoading: false,
-        logInError: action.error,
-      };
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case LOG_IN_REQUEST: // 리듀서의 액션이 실행되면서 saga의 액션도 같이 실행이됨 동시에
+        draft.logInLoading = true;
+        draft.logInDone = false;
+        draft.logInError = null;
+        break;
+      // return {
+      //   // request에서 3개의 변수를 모두 초기화 시켜줌
+      //   ...state,
+      //   logInLoading: true,
+      //   logInDone: false,
+      //   logInError: null,
+      // };
+      case LOG_IN_SUCCESS:
+        draft.logInLoading = false;
+        draft.logInDone = true;
+        draft.me = dummyUser(action.data);
+        break;
+      // return {
+      //   // success에서 필요한 변수만 초기화 시켜줌
+      //   ...state,
+      //   logInLoading: false,
+      //   logInDone: true,
+      //   me: dummyUser(action.data),
+      // };
+      case LOG_IN_FAILURE:
+        draft.logInLoading = false;
+        draft.logInError = action.error;
+        break;
+      // return {
+      //   // failure에서 필요한 변수만 초기화 시켜줌
+      //   ...state,
+      //   logInLoading: false,
+      //   logInError: action.error,
+      // };
 
-    case LOG_OUT_REQUEST:
-      return {
-        ...state,
-        logOutLoading: true,
-        logOutDone: false,
-        logOutError: null,
-      };
-    case LOG_OUT_SUCCESS:
-      return {
-        ...state,
-        logOutLoading: false,
-        logOutDone: true,
-        logInDone: false,
-        me: null,
-      };
-    case LOG_OUT_FAILURE:
-      return {
-        ...state,
-        logOutLoading: false,
-        logOutError: action.error,
-      };
+      case LOG_OUT_REQUEST:
+        draft.logOutLoading = true;
+        draft.logOutDone = false;
+        draft.logOutError = null;
+        break;
+      // return {
+      //   ...state,
+      //   logOutLoading: true,
+      //   logOutDone: false,
+      //   logOutError: null,
+      // };
+      case LOG_OUT_SUCCESS:
+        draft.logOutLoading = false;
+        draft.logOutDone = true;
+        draft.logInDone = false;
+        draft.me = null;
+        break;
+      // return {
+      //   ...state,
+      //   logOutLoading: false,
+      //   logOutDone: true,
+      //   logInDone: false,
+      //   me: null,
+      // };
+      case LOG_OUT_FAILURE:
+        draft.logOutLoading = false;
+        draft.logOutError = action.error;
+        break;
+      // return {
+      //   ...state,
+      //   logOutLoading: false,
+      //   logOutError: action.error,
+      // };
 
-    case SIGN_UP_REQUEST:
-      return {
-        ...state,
-        signUpLoading: true,
-        signUpDone: false,
-        signUpError: null,
-      };
-    case SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        signUpLoading: false,
-        signUpDone: true,
-      };
-    case SIGN_UP_FAILURE:
-      return {
-        ...state,
-        signUpLoading: false,
-        signUpError: action.error,
-      };
+      case SIGN_UP_REQUEST:
+        draft.signUpLoading = true;
+        draft.signUpDone = false;
+        draft.signUpError = null;
+        break;
+      // return {
+      //   ...state,
+      //   signUpLoading: true,
+      //   signUpDone: false,
+      //   signUpError: null,
+      // };
+      case SIGN_UP_SUCCESS:
+        draft.signUpLoading = false;
+        draft.signUpDone = true;
+        break;
+      // return {
+      //   ...state,
+      //   signUpLoading: false,
+      //   signUpDone: true,
+      // };
+      case SIGN_UP_FAILURE:
+        draft.signUpLoading = false;
+        draft.signUpError = action.error;
+        break;
+      // return {
+      //   ...state,
+      //   signUpLoading: false,
+      //   signUpError: action.error,
+      // };
 
-    case CHANGE_NICKNAME_REQUEST:
-      return {
-        ...state,
-        changeNicknameLoading: true,
-        changeNicknameDone: false,
-        changeNicknameError: null,
-      };
-    case CHANGE_NICKNAME_SUCCESS:
-      return {
-        ...state,
-        changeNicknameLoading: false,
-        changeNicknameDone: true,
-      };
-    case CHANGE_NICKNAME_FAILURE:
-      return {
-        ...state,
-        changeNicknameLoading: false,
-        changeNicknameError: action.error,
-      };
+      case CHANGE_NICKNAME_REQUEST:
+        draft.changeNicknameLoading = true;
+        draft.changeNicknameDone = false;
+        draft.changeNicknameError = null;
+        break;
+      // return {
+      //   ...state,
+      //   changeNicknameLoading: true,
+      //   changeNicknameDone: false,
+      //   changeNicknameError: null,
+      // };
+      case CHANGE_NICKNAME_SUCCESS:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameDone = true;
+        break;
+      // return {
+      //   ...state,
+      //   changeNicknameLoading: false,
+      //   changeNicknameDone: true,
+      // };
+      case CHANGE_NICKNAME_FAILURE:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameError = action.error;
+        break;
+      // return {
+      //   ...state,
+      //   changeNicknameLoading: false,
+      //   changeNicknameError: action.error,
+      // };
 
-    case ADD_POST_TO_ME:
-      return {
-        ...state,
-        me: {
-          ...state.me,
-          Posts: [{ id: action.data }, ...state.me.Posts],
-        },
-      };
+      case ADD_POST_TO_ME:
+        draft.me.Posts.unshift({ id: action.data });
+        break;
+      // return {
+      //   ...state,
+      //   me: {
+      //     ...state.me,
+      //     Posts: [{ id: action.data }, ...state.me.Posts],
+      //   },
+      // };
 
-    case REMOVE_POST_OF_ME:
+      case REMOVE_POST_OF_ME:
+        draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
+        break;
       // const postIndex = state.me.Posts.findIndex((v) => v.id === action.data);
       // const posts = [...state.me.Posts];
       // posts.splice(postIndex, 1);
-      return {
-        ...state,
-        me: {
-          ...state.me,
-          Posts: state.me.Posts.filter((v) => v.id !== action.data),
-        },
-      };
-    default:
-      return state;
-  }
+      // return {
+      //   ...state,
+      //   me: {
+      //     ...state.me,
+      //     Posts: state.me.Posts.filter((v) => v.id !== action.data),
+      //   },
+      // };
+      default:
+        break;
+      // return state;
+    }
+  });
 };
 
 export default reducer;
