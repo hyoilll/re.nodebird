@@ -1,3 +1,5 @@
+import shortId from "shortid";
+
 export const initialState = {
   mainPosts: [
     {
@@ -57,20 +59,33 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = {
-  id: 2,
-  content: "더미데이터",
-  User: {
-    id: 1,
-    nickname: "hyoil",
-  },
-  Images: [],
-  Comments: [],
+const dummyPost = (data) => {
+  return {
+    id: shortId.generate(), // npm i shortid, 항상 새로운 아이디를 생성해줌
+    content: data,
+    User: {
+      id: 1,
+      nickname: "hyoil",
+    },
+    Images: [],
+    Comments: [],
+  };
+};
+const dummyComment = (data) => {
+  return {
+    id: shortId.generate(), // npm i shortid, 항상 새로운 아이디를 생성해줌
+    content: data,
+    User: {
+      id: 1,
+      nickname: "hyoil",
+    },
+  };
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_REQUEST:
+      console.log("ADD_POST_REQUEST");
       return {
         ...state,
         addPostLoading: true,
@@ -78,9 +93,10 @@ const reducer = (state = initialState, action) => {
         addPostError: null,
       };
     case ADD_POST_SUCCESS:
+      console.log("ADD_POST_SUCCESS", action.type, action.data);
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts], // 객체가 삽임되므로 객체를 반환하는 함수를 통해서 data를 넘겨줌
         addPostLoading: false,
         addPostDone: true,
         // const a = [1, 2, 3, 4]
@@ -102,8 +118,17 @@ const reducer = (state = initialState, action) => {
         addCommentError: null,
       };
     case ADD_COMMENT_SUCCESS:
+      // action : {content: commentText, postId: post.id, userId: id}
+      const postIndex = state.mainPosts.findIndex(
+        (v) => v.id === action.data.postId
+      );
+      const post = { ...state.mainPosts[postIndex] };
+      post.Comments = [dummyComment(action.data.content), ...post.Comments];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = post;
       return {
         ...state,
+        mainPosts: mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
         // const a = [1, 2, 3, 4]

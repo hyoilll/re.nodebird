@@ -5,12 +5,12 @@ import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 
 const Home = () => {
-  const { logInDone } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
   const mainPosts = useSelector((state) => state.post.mainPosts);
   return (
     <AppLayout>
       {/* children */}
-      {logInDone && <PostForm></PostForm>}
+      {me && <PostForm></PostForm>}
       {mainPosts.map((post) => (
         <PostCard key={post.id} post={post}></PostCard>
       ))}

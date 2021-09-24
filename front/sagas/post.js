@@ -38,7 +38,7 @@ function* addComment(action) {
     yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: result.data, // 성공결과가 담겨있음
+      data: action.data, // 성공결과가 담겨있음
     });
   } catch (err) {
     yield put({
