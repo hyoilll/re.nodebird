@@ -44,6 +44,10 @@ export const FOLLOW_FAILURE = "FOLLOW_FAILURE";
 export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
+
+// user reducer의 상태를 바꿀 수 있는 액션
+export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
+export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 // ---
 
 const dummyUser = (data) => {
@@ -51,9 +55,9 @@ const dummyUser = (data) => {
     ...data,
     nickname: "hyoil",
     id: 1,
-    Posts: [],
-    Followings: [],
-    Followers: [],
+    Posts: [{ id: 1 }],
+    Followings: [{ nickname: "aaa" }, { nickname: "bbb" }, { nickname: "ccc" }],
+    Followers: [{ nickname: "aaa" }, { nickname: "bbb" }, { nickname: "ccc" }],
   };
 };
 
@@ -156,6 +160,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         changeNicknameLoading: false,
         changeNicknameError: action.error,
+      };
+
+    case ADD_POST_TO_ME:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: [{ id: action.data }, ...state.me.Posts],
+        },
+      };
+
+    case REMOVE_POST_OF_ME:
+      // const postIndex = state.me.Posts.findIndex((v) => v.id === action.data);
+      // const posts = [...state.me.Posts];
+      // posts.splice(postIndex, 1);
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: state.me.Posts.filter((v) => v.id !== action.data),
+        },
       };
     default:
       return state;
