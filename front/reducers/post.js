@@ -1,5 +1,6 @@
 import shortId from "shortid"; // npm i shortid, 항상 새로운 아이디를 생성해줌
 import produce from "immer"; // npm i immer
+import faker from "faker"; // npm i faker
 
 export const initialState = {
   mainPosts: [
@@ -46,6 +47,35 @@ export const initialState = {
   addCommentDone: false,
   addCommentError: null,
 };
+
+initialState.mainPosts = initialState.mainPosts.concat(
+  Array(20)
+    .fill()
+    .map(() => {
+      return {
+        id: shortId.generate(),
+        User: {
+          id: shortId.generate(),
+          nickname: faker.name.findName(),
+        },
+        content: faker.lorem.paragraph(),
+        Images: [
+          {
+            src: faker.image.image(),
+          },
+        ],
+        Comments: [
+          {
+            User: {
+              id: shortId.generate(),
+              nickname: faker.name.findName(),
+            },
+            content: faker.lorem.sentence(),
+          },
+        ],
+      };
+    })
+);
 
 // --- 상수화
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";

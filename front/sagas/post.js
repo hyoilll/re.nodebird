@@ -77,7 +77,7 @@ function* addComment(action) {
     yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: action.data, // 성공결과가 담겨있음
+      data: action.data, // { content: commentText, postId: post.id, userId: id }
     });
   } catch (err) {
     yield put({
