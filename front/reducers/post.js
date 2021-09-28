@@ -3,40 +3,12 @@ import produce from "immer"; // npm i immer
 import faker from "faker"; // npm i faker
 
 export const initialState = {
-  mainPosts: [
-    {
-      id: 1,
-      User: {
-        id: 1,
-        nickname: "Hyoilzzz",
-      },
-      content: "첫번째 게시글 #hyoil #zzz#bbb",
-      Images: [
-        { id: shortId.generate(), src: "https://placeimg.com/64/64/1" },
-        { id: shortId.generate(), src: "https://placeimg.com/64/64/2" },
-        { id: shortId.generate(), src: "https://placeimg.com/64/64/3" },
-      ],
-      Comments: [
-        {
-          id: shortId.generate(),
-          User: {
-            id: shortId.generate(),
-            nickname: "nero",
-          },
-          content: "개정판이 나왔네요.",
-        },
-        {
-          id: shortId.generate(),
-          User: {
-            id: shortId.generate(),
-            nickname: "hero",
-          },
-          content: "얼른 사고 싶어요.",
-        },
-      ],
-    },
-  ],
+  mainPosts: [],
   imagePaths: [],
+  hasMorePosts: true,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -48,8 +20,8 @@ export const initialState = {
   addCommentError: null,
 };
 
-initialState.mainPosts = initialState.mainPosts.concat(
-  Array(20)
+export const generateDummyPost = (number) => {
+  return Array(number)
     .fill()
     .map(() => {
       return {
@@ -74,10 +46,14 @@ initialState.mainPosts = initialState.mainPosts.concat(
           },
         ],
       };
-    })
-);
+    });
+};
 
 // --- 상수화
+export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
+export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
+export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
+
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
@@ -128,6 +104,22 @@ const dummyComment = (data) => {
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_POSTS_REQUEST:
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
+        break;
+      case LOAD_POSTS_SUCCESS:
+        draft.mainPosts = action.data.concat(draft.mainPosts);
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case LOAD_POSTS_FAILURE:
+        draft.loadPostsLoading = false;
+        draft.loadPostsError = action.error;
+        break;
+
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
