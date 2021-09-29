@@ -17,6 +17,14 @@ export const initialState = {
   changeNicknameDone: false,
   changeNicknameError: null,
 
+  followLoading: false, // follow 시도중인지 확인하는 변수
+  followDone: false,
+  followError: null,
+
+  unfollowLoading: false, // unfollow 시도중인지 확인하는 변수
+  unfollowDone: false,
+  unfollowError: null,
+
   me: null,
   signUpData: {},
   loginData: {},
@@ -79,6 +87,38 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case FOLLOW_REQUEST:
+        draft.followLoading = true;
+        draft.followDone = false;
+        draft.followError = null;
+        break;
+      case FOLLOW_SUCCESS:
+        draft.followLoading = false;
+        draft.followDone = true;
+        draft.me.Followings.push({ id: action.data });
+        break;
+      case FOLLOW_FAILURE:
+        draft.followLoading = false;
+        draft.followError = action.error;
+        break;
+
+      case UNFOLLOW_REQUEST:
+        draft.unfollowLoading = true;
+        draft.unfollowDone = false;
+        draft.unfollowError = null;
+        break;
+      case UNFOLLOW_SUCCESS:
+        draft.unfollowLoading = false;
+        draft.unfollowDone = true;
+        draft.me.Followings = draft.me.Followings.filter(
+          (v) => v.id !== action.data
+        );
+        break;
+      case UNFOLLOW_FAILURE:
+        draft.unfollowLoading = false;
+        draft.unfollowError = action.error;
+        break;
+
       case LOG_IN_REQUEST: // 리듀서의 액션이 실행되면서 saga의 액션도 같이 실행이됨 동시에
         draft.logInLoading = true;
         draft.logInDone = false;

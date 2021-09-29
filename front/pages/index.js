@@ -27,14 +27,19 @@ const Home = () => {
       // 스크롤을 가장 밑으로 내려도 아직 화면 크기만크므이 공간이 남아있음
       // 이 공간을 알기 위해 밑의 clientHeight가 필요한 것
       // => scrollY + clientHeight = scrollHeight
-      const scrollY = window.scrollY;
-      // 내 화면이 보이는 길이
-      const clientHeight = document.documentElement.clientHeight;
-      // 가장위에서 가장 아래, 총 길이
-      const scrollHeight = document.documentElement.scrollHeight;
+      //const scrollY = window.scrollY;
 
-      // -300하느 이유는 가장 밑에 스크롤이 오기 전에 300px먼저 업데이트하기 위함
-      if (scrollHeight - 300 < scrollY + clientHeight) {
+      // 내 화면이 보이는 길이
+      //const clientHeight = document.documentElement.clientHeight;
+
+      // 가장 위에서 가장 아래, 총 길이
+      //const scrollHeight = document.documentElement.scrollHeight;
+
+      // -300하는 이유는 가장 밑에 스크롤이 오기 전에 300px먼저 업데이트하기 위함
+      if (
+        document.documentElement.scrollHeight - 300 <
+        window.scrollY + document.documentElement.clientHeight
+      ) {
         if (hasMorePosts && !loadPostsLoading) {
           dispatch({
             type: LOAD_POSTS_REQUEST,
