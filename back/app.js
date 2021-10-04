@@ -67,3 +67,7 @@ app.listen(3065, () => {
 // server.listen(3065, () => {
 //   console.log("서버 실행 중");
 // });
+
+// npm i mysql2 - 외부 mysql과 연동하기 위한 드라이버
+// npm i sequelize - js를 sql로 바꿔줌
+// npm i sequelize-cli
