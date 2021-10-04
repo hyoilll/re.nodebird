@@ -8,6 +8,8 @@ const FollowButton = ({ post }) => {
   const { me, followLoading, unfollowLoading } = useSelector(
     (state) => state.user
   );
+
+  //Followings안에 post.User.id가 있으면 해당 인덱스를 반환
   const isFollowing = me && me.Followings.find((v) => v.id === post.User.id);
 
   const dispatch = useDispatch();
