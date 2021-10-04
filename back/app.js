@@ -1,4 +1,5 @@
 const express = require("express");
+const postRouter = require("./routes/post");
 
 const app = express();
 
@@ -10,11 +11,11 @@ app.get("/", (req, res) => {
   res.send("hello express");
 });
 
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
   res.send("hello api");
 });
 
-app.get("/api/posts", (req, res) => {
+app.get("/posts", (req, res) => {
   // 데이터는 json으로 표현
   res.json([
     {
@@ -32,13 +33,9 @@ app.get("/api/posts", (req, res) => {
   ]);
 });
 
-app.post("/api/post", (req, res) => {
-  res.json({ id: 1, content: "hello1" });
-});
-
-app.delete("/api/posts", (req, res) => {
-  res.json({ id: 1 });
-});
+// router 분리
+// '/post' : 분리한 router들의 공통된 주소를 뽑아준 것
+app.use("/post", postRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중");
