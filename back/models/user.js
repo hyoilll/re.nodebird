@@ -1,6 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   // 사용자 정보 저장하는 User
   // 매개변수의 User -> MySQL에서는 users로 됨

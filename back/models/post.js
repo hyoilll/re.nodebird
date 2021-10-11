@@ -1,6 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   // Post 정보 저장
   // 매개변수의 Post -> MySQL에서는 post로 됨
@@ -31,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     db.Post.hasMany(db.Image); // 1 : N
     // 하나의 게시글에는 여러개의 해시태그가 존재하고,
     // 하나의 해시태그에는 여러개의 게시글이 존재함.
-    db.Post.belongsToMany(db.Hashtag); // N : M
+    db.Post.belongsToMany(db.Hashtag, { through: "PostHashtag" }); // N : M
     // 한개의 게시글은 여러명의 사람으로부터 좋아요를 받을 수 있고,
     // 한명의 사람은 여러개의 개시글에 좋아요를 누를 수 있음.
     // through : N : M관계에서 생기는 중간테이블의 이름

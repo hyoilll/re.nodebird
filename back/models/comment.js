@@ -1,6 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   // Comment 정보 저장
   // 매개변수의 Comment -> MySQL에서는 Comment로 됨

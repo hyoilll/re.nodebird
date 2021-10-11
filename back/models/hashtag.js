@@ -1,6 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   // Hashtag 정보 저장
   // 매개변수의 Hashtag -> MySQL에서는 Hashtag로 됨
@@ -21,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Hashtag.associate = (db) => {
-    db.Hashtag.belongsToMany(db.Post);
+    db.Hashtag.belongsToMany(db.Post, { through: "PostHashtag" });
   };
 
   return Hashtag;

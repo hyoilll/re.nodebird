@@ -1,6 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   // Image 정보 저장
   // 매개변수의 Image -> MySQL에서는 Image로 됨

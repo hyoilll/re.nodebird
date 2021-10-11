@@ -1,7 +1,16 @@
 const express = require("express");
 const postRouter = require("./routes/post");
-
+const db = require("./models");
 const app = express();
+
+// npx sequelize db:create
+// 서버 실행시 db도 연결됨
+db.sequelize
+  .sync() //
+  .then(() => {
+    console.log("db 연결 성공!!");
+  })
+  .catch(console.error);
 
 // GET은 서버로부터 정보를 조회하기 위해 설계된 메소드
 // GET은 요청을 전송할 때 필요한 데이터를 Body에 담지 않고, 쿼리스트링을 통해 전송
