@@ -4,7 +4,7 @@ const config = require("../config/config")[env];
 const db = {};
 
 // 내부적으로는 mysql툴을 사용
-// 노드랑 mysql을 연결할 수 있게 도와줌
+// 디비 정보를 매개변수로하여 노드랑 mysql을 연결할 수 있게 도와줌
 const sequelize = new Sequelize(
   config.database,
   config.username,
