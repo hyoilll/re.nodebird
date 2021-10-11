@@ -8,11 +8,12 @@ module.exports = (sequelize, DataTypes) => {
     "Image",
     {
       // Image 정보
-      // id에서는 MySQL에서 자동으로 넣어주기에 안넣어도 됨
+      // id는 MySQL에서 자동으로 넣어주기에 안넣어도 됨
       src: {
         type: DataTypes.STRING(200),
         allowNull: false,
       },
+      // PostId
     },
     {
       // Image 모델에 대한 셋팅
@@ -20,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       collate: "utf8_general_ci", // 한글 저장
     }
   );
-  Image.associate = (db) => {};
+  Image.associate = (db) => {
+    db.Image.belongsTo(db.Post);
+  };
 
   return Image;
 };
