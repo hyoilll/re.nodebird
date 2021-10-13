@@ -1,7 +1,11 @@
 const express = require("express");
 const postRouter = require("./routes/post");
+const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
+
+// npm i -D nodemon@2
+// react의 hot loader와 같은 라이브러리
 
 // npx sequelize db:create
 // 서버 실행시 db도 연결됨
@@ -11,6 +15,12 @@ db.sequelize
     console.log("db 연결 성공!!");
   })
   .catch(console.error);
+
+// 프론트에서 받은 데이터를 req.body로 넣어주는 역할
+// 그렇기 때문에 프론트와 서버가 통신하는
+// get, post와 같은 함수 위에 위치해야 정산적인 통신이 가능
+app.use(express.json()); // 프론트에서 보내온 json파일을 req.body로
+app.use(express.urlencoded({ extended: true })); // form submit했을 때 데이터를 req.body로
 
 // GET은 서버로부터 정보를 조회하기 위해 설계된 메소드
 // GET은 요청을 전송할 때 필요한 데이터를 Body에 담지 않고, 쿼리스트링을 통해 전송
@@ -45,16 +55,18 @@ app.get("/posts", (req, res) => {
 // router 분리
 // '/post' : 분리한 router들의 공통된 주소를 뽑아준 것
 app.use("/post", postRouter);
+// '/user' : 분리한 router들의 공통된 주소를 뽑아준 것
+app.use("/user", userRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중");
 });
 
-// app.get - 가져오기
-// app.post - 생성하기
-// app.put - 전체 수정하기
-// app.delete - 제거하기
-// app.patch - 부분 수정하기
+// app.get - 가져오기, 데이터 전송 x
+// app.post - 생성하기, 데이터 전송 o
+// app.put - 전체 수정하기, 데이터 전송 o
+// app.delete - 제거하기, 데이터 전송 x
+// app.patch - 부분 수정하기, 데이터 전송 o
 // app.options - 찔러보기(서버에게 지금 데이터 요청해도 됨? 하고 물어보는 것)
 // app.gead - 헤더만 가져오기(헤더/바디)
 
