@@ -39,6 +39,7 @@ export const LOG_OUT_REQUEST = "LOG_OUT_REQUEST";
 export const LOG_OUT_SUCCESS = "LOG_OUT_SUCCESS";
 export const LOG_OUT_FAILURE = "LOG_OUT_FAILURE";
 
+export const SIGN_UP_INITIALIZE = "SIGN_UP_INITIALIZE";
 export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";
 export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS";
 export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE";
@@ -187,6 +188,12 @@ const reducer = (state = initialState, action) => {
       //   logOutLoading: false,
       //   logOutError: action.error,
       // };
+
+      case SIGN_UP_INITIALIZE:
+        draft.signUpLoading = false;
+        draft.signUpDone = false;
+        draft.signUpError = null;
+        break;
 
       case SIGN_UP_REQUEST:
         draft.signUpLoading = true;

@@ -23,6 +23,7 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
 } from "../reducers/user";
+import axios from "axios";
 
 function logInAPI(data) {
   return axios.post("/api/login", data);
@@ -76,11 +77,11 @@ function signUpAPI(data) {
 function* signUp(action) {
   try {
     const result = yield call(signUpAPI, action.data);
-    console.log(result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
   } catch (err) {
+    // status < 400 ~ 500 > 의 결과가 올 경우
     yield put({
       type: SIGN_UP_FAILURE,
       error: err.response.data, // 실패결과가 담겨있음

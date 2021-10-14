@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   // 사용자 정보 저장하는 User
   // 매개변수의 User -> MySQL에서는 users로 됨
   const User = sequelize.define(
-    "User",
+    "Users",
     {
       // 사용자 정보
       // id에서는 MySQL에서 자동으로 넣어주기에 안넣어도 됨

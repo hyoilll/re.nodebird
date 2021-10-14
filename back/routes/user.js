@@ -11,7 +11,6 @@ router.post("/", async (req, res, next) => {
   // req(requestion) : front서버 redux-saga의 singupAPI 함수로부터
   // axios.post 함수를 사용하여 data를 넘겨받음
   // post는 body에 데이터를 담아 전송하기 때문에 req.body가 됨
-
   try {
     // db에 이미 같은 정보가 저장되어 있는지 확인하는 단계
     // findOne : find 메서드에서 조회할때 가장 첫번째 배열 데이터 한개만 조회하고 싶을때 사용
@@ -35,7 +34,7 @@ router.post("/", async (req, res, next) => {
     // create : table안에 데이터를 넣는 것
     await User.create({
       email: req.body.email,
-      nickname: req.body.nickname,
+      nickname: req.body.nickName,
       password: hashedPassword,
     });
     res.status(201).send("ok");

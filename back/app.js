@@ -3,6 +3,7 @@ const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
+const cors = require("cors"); // npm i cors : cors문제 해결
 
 // npm i -D nodemon@2
 // react의 hot loader와 같은 라이브러리
@@ -16,6 +17,22 @@ db.sequelize
   })
   .catch(console.error);
 
+// use : middleware 연결
+// 브라우저(:3000) - 프론트서버(:3000) - 백엔드서버(:3065)와 같은 구조에서
+// 브라우저 -> 백엔드 포트번호가 다른 것끼리 소통불가(브라우저가 막음)
+// but 프론트서버 -> 벡엔드서버, 에서 는 소통이 가능함
+// proxy방식: 브라우저 -> 프론트 서버 -> 백엔드서버 이렇게 소통하는 방식
+// 미들웨어를 사용한 cors해결방법 : npm i cors
+// but cors()는 모든 주소에 대한 접근허용을 나타내는데,
+// 이렇게 하면 보안에 취약하므로, 주소를 추가적으로 적어줘야함.
+app.use(
+  cors({
+    // '*' : 모든 주소
+    // true : 접근해온 주소가 자동으로 허용처리됨
+    origin: true,
+    credentials: false,
+  })
+);
 // 프론트에서 받은 데이터를 req.body로 넣어주는 역할
 // 그렇기 때문에 프론트와 서버가 통신하는
 // get, post와 같은 함수 위에 위치해야 정산적인 통신이 가능

@@ -1,11 +1,12 @@
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import { Form, Input, Checkbox, Button } from "antd";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useInput from "../hooks/useInput";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { SIGN_UP_REQUEST } from "../reducers/user";
+import { SIGN_UP_INITIALIZE, SIGN_UP_REQUEST } from "../reducers/user";
+import Router from "next/router";
 
 const ErrorMsg = styled.div`
   color: red;
@@ -34,7 +35,16 @@ const Signup = () => {
   }, []);
 
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push("/");
+      dispatch({
+        type: SIGN_UP_INITIALIZE,
+      });
+    }
+  }, [signUpDone]);
 
   const onSubmit = useCallback(() => {
     if (pw !== pwCheck) {
