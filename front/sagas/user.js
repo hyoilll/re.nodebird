@@ -26,7 +26,10 @@ import {
 import axios from "axios";
 
 function logInAPI(data) {
-  return axios.post("/api/login", data);
+  // index.js에서 axios.defaults.baseURL = "http://localhost:3065";
+  // 처럼 baseURL을 설정해줬기에
+  // post("http://localhost:3065/user/login")으로 적용이됨
+  return axios.post("/user/login", data);
 }
 
 // action 매개변수로 로그인 정보가 들어옴
@@ -35,11 +38,10 @@ function logInAPI(data) {
 // loginAPI(action.data) ==> call(logInAPI, action.data)
 function* logIn(action) {
   try {
-    // const result = yield call(logInAPI, action.data);
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data, // 성공결과가 담겨있음
+      data: result.data, // 성공결과가 담겨있음
     });
   } catch (err) {
     yield put({
@@ -71,7 +73,7 @@ function* logOut() {
 
 function signUpAPI(data) {
   // data: { email, pw, nickName }
-  return axios.post("http://localhost:3065/user", data);
+  return axios.post("/user", data);
 }
 
 function* signUp(action) {

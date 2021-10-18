@@ -4,6 +4,7 @@ const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
 const cors = require("cors"); // npm i cors : cors문제 해결
+const passportConfig = require("./passport");
 
 // npm i -D nodemon@2
 // react의 hot loader와 같은 라이브러리
@@ -17,6 +18,7 @@ db.sequelize
   })
   .catch(console.error);
 
+passportConfig();
 // use : middleware 연결
 // 브라우저(:3000) - 프론트서버(:3000) - 백엔드서버(:3065)와 같은 구조에서
 // 브라우저 -> 백엔드 포트번호가 다른 것끼리 소통불가(브라우저가 막음)

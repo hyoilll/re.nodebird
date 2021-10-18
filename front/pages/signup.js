@@ -35,7 +35,9 @@ const Signup = () => {
   }, []);
 
   const dispatch = useDispatch();
-  const { signUpLoading, signUpDone } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone, signUpError } = useSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
     if (signUpDone) {
@@ -45,6 +47,12 @@ const Signup = () => {
       });
     }
   }, [signUpDone]);
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
 
   const onSubmit = useCallback(() => {
     if (pw !== pwCheck) {
